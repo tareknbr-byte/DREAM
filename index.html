@@ -224,9 +224,11 @@ const configReady =
   SUPABASE_KEY &&
   !SUPABASE_KEY.includes("YOUR_PUBLISHABLE");
 
-const supabase = configReady
+window.dreamSupabase = configReady
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
   : null;
+
+const supabase = window.dreamSupabase;
 
 const $ = selector => document.querySelector(selector);
 
