@@ -3,12 +3,14 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#11100D">
 <meta name="description" content="DREAM BY OISHY — luxury skincare and beauty essentials.">
 <title>DREAM BY OISHY</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 :root {
   --bg:#11100D;
@@ -16,27 +18,29 @@
   --card:#1C1A16;
   --gold:#C9A85C;
   --mut:#B5AD9D;
-  --line:#7B6332;
   box-sizing:border-box;
   color-scheme:dark;
 }
 *,*::before,*::after { box-sizing:inherit; }
 body {
-  margin:0;background:var(--bg);color:var(--ink);
-  font-family:"DM Sans",system-ui,sans-serif;line-height:1.5;
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"DM Sans",system-ui,sans-serif;
+  line-height:1.5;
 }
-button,input,textarea { font:inherit;color:inherit; }
+button,input,textarea,select { font:inherit;color:inherit; }
 button { cursor:pointer; }
 header {
   position:sticky;top:0;z-index:5;
-  background:rgba(17,16,13,.96);
+  background:rgba(17,16,13,.97);
   border-bottom:1px solid #7B633255;
   display:flex;justify-content:space-between;align-items:center;
   padding:16px 20px;max-width:1180px;margin:auto;
 }
 .logo {
   font-family:"Playfair Display",serif;font-weight:700;
-  font-size:1.35rem;letter-spacing:.08em;color:var(--gold);
+  font-size:1.25rem;letter-spacing:.08em;color:var(--gold);
 }
 .wrap { max-width:1180px;margin:auto;padding:0 20px 70px; }
 .btn {
@@ -47,21 +51,21 @@ header {
 .btn.ghost { background:transparent;color:var(--ink); }
 .btn:disabled { opacity:.5;cursor:not-allowed; }
 .hero {
-  padding:75px 0 55px;position:relative;
+  padding:70px 0 50px;position:relative;
   border-bottom:1px solid #7B633255;margin-bottom:22px;
 }
 .hero h1 {
   font-family:"Playfair Display",serif;
   font-size:clamp(2.8rem,8vw,6.3rem);
-  line-height:1;letter-spacing:-.035em;font-weight:500;
-  margin:0;max-width:12ch;
+  line-height:1;letter-spacing:-.035em;
+  font-weight:500;margin:0;max-width:12ch;
 }
 .hero h1 em { font-style:normal;color:var(--gold); }
 .hero p { max-width:42ch;color:var(--mut);margin-top:22px;line-height:1.8; }
 .sticker {
   position:absolute;right:5%;top:55px;color:var(--gold);
   border:1px solid var(--gold);border-radius:50%;
-  width:105px;height:105px;display:grid;place-items:center;
+  width:100px;height:100px;display:grid;place-items:center;
   text-align:center;font-family:"Playfair Display",serif;
   line-height:1.3;transform:rotate(8deg);
 }
@@ -75,77 +79,76 @@ header {
 @media(min-width:700px) { .grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
 .card {
   background:var(--card);border:1px solid #7B633255;
-  border-radius:4px;padding:12px;display:flex;flex-direction:column;
-  gap:9px;min-width:0;transition:transform .2s;
+  border-radius:4px;padding:12px;display:flex;
+  flex-direction:column;gap:9px;min-width:0;
 }
-.card:hover { transform:translateY(-3px);border-color:var(--gold); }
 .sw {
   position:relative;overflow:hidden;aspect-ratio:1;
   background:radial-gradient(circle at 30% 24%,#ffffff15,transparent 34%),var(--c,#3B3323);
 }
 .sw img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
-.tag {
-  position:absolute;left:10px;top:10px;background:var(--gold);
-  color:#11100D;padding:5px 9px;font-size:.75rem;
-}
-.card h3 {
-  margin:5px 0 0;font-family:"Playfair Display",serif;
-  font-size:1.15rem;line-height:1.3;font-weight:500;
-}
+.tag { position:absolute;left:10px;top:10px;background:var(--gold);color:#11100D;padding:5px 9px;font-size:.75rem; }
+.card h3 { margin:5px 0 0;font-family:"Playfair Display",serif;font-size:1.15rem;line-height:1.3;font-weight:500; }
 .cat,.small { color:var(--mut);font-size:.88rem; }
 .cat { margin:0; }
 .row { display:flex;justify-content:space-between;align-items:center;margin-top:auto;gap:8px; }
 .price { font-weight:800;font-size:1.05rem; }
 .card .btn { padding:7px 12px; }
-.cartbtn i {
-  font-style:normal;background:var(--ink);color:var(--bg);
-  border-radius:99px;padding:0 7px;margin-left:6px;
-}
+.cartbtn i { font-style:normal;background:var(--ink);color:var(--bg);border-radius:99px;padding:0 7px;margin-left:6px; }
 .overlay {
   position:fixed;inset:0;background:#000b;z-index:10;
   display:flex;align-items:flex-end;justify-content:center;
 }
 .sheet {
   background:var(--bg);border:1px solid var(--gold);
-  border-radius:8px 8px 0 0;width:100%;max-width:540px;
+  border-radius:8px 8px 0 0;width:100%;max-width:600px;
   max-height:92vh;overflow:auto;padding:18px 16px 25px;
 }
 .sheet h2 { margin:0 0 10px;font-family:"Playfair Display",serif; }
-.item {
-  display:flex;align-items:center;gap:10px;padding:10px 0;
-  border-bottom:1px dashed var(--mut);
-}
+.item { display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--mut); }
 .dot { width:34px;height:34px;border:1px solid var(--gold);background:var(--c);flex:none; }
 .desc { flex:1;font-weight:600; }
 .qty { display:flex;align-items:center;gap:8px; }
-.qty button {
-  width:30px;height:30px;border:1px solid var(--gold);
-  background:var(--card);
-}
+.qty button { width:30px;height:30px;border:1px solid var(--gold);background:var(--card); }
 .total { display:flex;justify-content:space-between;font-weight:800;font-size:1.3rem;margin:14px 0; }
 .form { display:grid;gap:9px;margin:12px 0; }
-.form input,.form textarea {
-  width:100%;border:1px solid #7B633288;
-  background:var(--card);border-radius:3px;padding:11px;
+.form input,.form textarea,.form select {
+  width:100%;border:1px solid #7B633288;background:var(--card);
+  border-radius:3px;padding:11px;
 }
 .big { display:block;width:100%;text-align:center;padding:13px; }
-.empty { color:var(--mut);padding:16px 0; }
+.admin-panel { border:1px solid var(--gold);padding:16px;margin:24px 0;background:var(--card); }
+.admin-panel h2,.admin-panel h3 { font-family:"Playfair Display",serif; }
+.admin-grid { display:grid;grid-template-columns:1fr;gap:10px; }
+@media(min-width:650px) { .admin-grid { grid-template-columns:1fr 1fr; } }
+.admin-grid label { display:grid;gap:5px;color:var(--mut);font-size:.9rem; }
+.admin-grid input,.admin-grid textarea,.admin-grid select {
+  width:100%;background:var(--bg);border:1px solid #7B633288;
+  padding:10px;border-radius:3px;
+}
+.admin-actions { display:flex;flex-wrap:wrap;gap:8px;margin-top:12px; }
+.admin-list { margin-top:18px; }
+.admin-row { display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid #7B633255;padding:10px 0; }
+.admin-row .small { flex:1; }
+footer { text-align:center;color:var(--mut);padding:32px 0;font-size:.9rem;border-top:1px solid #7B633255;margin-top:35px; }
 #toast {
   position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);
   background:var(--ink);color:var(--bg);padding:10px 16px;
   border-radius:30px;opacity:0;transition:.2s;z-index:30;
+  max-width:90%;text-align:center;
 }
 #toast.show { opacity:1;transform:translate(-50%,0); }
-footer {
-  text-align:center;color:var(--mut);padding:32px 0;
-  font-size:.9rem;border-top:1px solid #7B633255;margin-top:35px;
-}
+[hidden] { display:none!important; }
 </style>
 </head>
+
 <body>
 <header>
   <span class="logo">DREAM BY OISHY</span>
-  <button class="btn cartbtn" id="open-cart">Bag<i id="bag-count">0</i></button>
+  <div style="display:flex;gap:8px">
+    <button class="btn ghost" id="admin-open">Admin</button>
+    <button class="btn cartbtn" id="open-cart">Bag<i id="bag-count">0</i></button>
+  </div>
 </header>
 
 <main class="wrap">
@@ -156,8 +159,51 @@ footer {
   </section>
 
   <nav class="chips" id="categories" aria-label="Product categories"></nav>
-  <div id="status" class="small" role="status"></div>
+  <div id="status" class="small" role="status">Loading products…</div>
   <section class="grid" id="products" aria-label="Products"></section>
+
+  <section class="admin-panel" id="admin-panel" hidden>
+    <h2>Shop Admin</h2>
+    <p class="small">Sign in with the admin user you created in Supabase Authentication. Product changes are protected by database policies.</p>
+
+    <div id="login-area">
+      <div class="form">
+        <input id="admin-email" type="email" autocomplete="username" placeholder="Admin email">
+        <input id="admin-password" type="password" autocomplete="current-password" placeholder="Admin password">
+      </div>
+      <button class="btn" id="admin-login">Sign in</button>
+    </div>
+
+    <div id="manage-area" hidden>
+      <p id="admin-welcome" class="small"></p>
+      <h3 id="form-title">Add a product</h3>
+      <form id="product-form">
+        <input id="product-id" type="hidden">
+        <div class="admin-grid">
+          <label>Product name<input id="p-name" required maxlength="120"></label>
+          <label>Category<input id="p-category" required value="Skincare" maxlength="60"></label>
+          <label>Price (BDT)<input id="p-price" type="number" min="0" step="0.01" required></label>
+          <label>Image URL<input id="p-image" type="url" placeholder="https://..."></label>
+          <label>Description<textarea id="p-description" rows="2"></textarea></label>
+          <label>Stock status
+            <select id="p-stock">
+              <option value="true">In stock</option>
+              <option value="false">Sold out</option>
+            </select>
+          </label>
+        </div>
+        <div class="admin-actions">
+          <button class="btn" type="submit">Save product</button>
+          <button class="btn ghost" type="button" id="clear-form">Clear form</button>
+          <button class="btn ghost" type="button" id="admin-logout">Sign out</button>
+        </div>
+      </form>
+      <div class="admin-list">
+        <h3>Current products</h3>
+        <div id="admin-products"></div>
+      </div>
+    </div>
+  </section>
 
   <footer>DREAM BY OISHY · The art of everyday beauty</footer>
 </main>
@@ -166,172 +212,454 @@ footer {
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* IMPORTANT: Add your WhatsApp number below before accepting orders.
-   Use country code and digits only, e.g. 8801XXXXXXXXX */
-const WHATSAPP_NUMBER = "8801717715404";
+// YOUR SUPABASE PROJECT SETTINGS
+const SUPABASE_URL = "https://jtjnybfeuiodmubklqdr.supabase.co";
+const SUPABASE_KEY = "sb_publishable_K555x-xPlkKSHb1oZqLRjQ_0PGqKTt9";
 
-const PRODUCTS = [
-  {id:1,name:"Hydrating Lip Gloss",cat:"Lip Care",price:450,color:"#6A4B34",stock:true},
-  {id:2,name:"Velvet Lip Tint",cat:"Lip Care",price:600,color:"#704139",stock:true},
-  {id:3,name:"Soft Cream Blush",cat:"Makeup",price:700,color:"#8A5B45",stock:true},
-  {id:4,name:"Golden Glow Highlighter",cat:"Makeup",price:800,color:"#B89A5A",stock:true},
-  {id:5,name:"Everyday Eye Palette",cat:"Makeup",price:550,color:"#554638",stock:true},
-  {id:6,name:"Volume Mascara",cat:"Makeup",price:650,color:"#302820",stock:false},
-  {id:7,name:"Hydra Glow Serum",cat:"Skincare",price:1100,color:"#6F7866",stock:true},
-  {id:8,name:"Daily Sun Gel SPF 50",cat:"Skincare",price:900,color:"#9A8352",stock:true}
-];
+// Enter your WhatsApp number with country code, digits only.
+const WHATSAPP_NUMBER = "8801XXXXXXXXX";
+
+const configReady =
+  SUPABASE_URL.startsWith("https://") &&
+  SUPABASE_KEY &&
+  !SUPABASE_KEY.includes("YOUR_PUBLISHABLE");
+
+const supabase = configReady
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+  : null;
 
 const $ = selector => document.querySelector(selector);
-const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[ch]));
 
+const escapeHTML = value =>
+  String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[ch]));
+
+const money = amount =>
+  new Intl.NumberFormat("en-BD", {
+    style:"currency",
+    currency:"BDT",
+    maximumFractionDigits:2
+  }).format(Number(amount) || 0);
+
+let PRODUCTS = [];
 let cart = {};
 let category = "All";
 let customer = {name:"",phone:"",address:"",notes:""};
 let toastTimer;
 
-const money = amount => new Intl.NumberFormat("en-BD", {
-  style:"currency",currency:"BDT",maximumFractionDigits:0
-}).format(Number(amount)||0);
-
-function selectedProducts() {
-  return PRODUCTS.filter(product => (cart[product.id] || 0) > 0);
-}
-function cartCount() {
-  return selectedProducts().reduce((sum, product) => sum + cart[product.id], 0);
-}
-function cartTotal() {
-  return selectedProducts().reduce((sum, product) => sum + product.price * cart[product.id], 0);
-}
 function toast(message) {
-  const element = $("#toast");
-  element.textContent = message;
-  element.classList.add("show");
+  const el = $("#toast");
+  el.textContent = message;
+  el.classList.add("show");
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => element.classList.remove("show"), 2600);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
 }
+
+function normalizeProduct(product) {
+  return {
+    ...product,
+    cat: product.category || "Skincare",
+    color: "#6F624B",
+    stock: product.stock === true || product.stock === "true"
+  };
+}
+
+async function loadProducts() {
+  if (!supabase) {
+    $("#status").textContent =
+      "Setup needed: add your Supabase Publishable key in this code.";
+    return;
+  }
+
+  $("#status").textContent = "Loading products…";
+
+  const {data,error} = await supabase
+    .from("products")
+    .select("id,name,category,price,image_url,description,stock,created_at")
+    .order("created_at", {ascending:false});
+
+  if (error) {
+    $("#status").textContent = "Could not load products: " + error.message;
+    return;
+  }
+
+  PRODUCTS = (data || []).map(normalizeProduct);
+
+  $("#status").textContent = PRODUCTS.length
+    ? "Explore our beauty collection."
+    : "Your database is connected, but no products have been added yet. Open Admin to add your first product.";
+
+  render();
+}
+
 function renderCategories() {
-  const categories = ["All", ...new Set(PRODUCTS.map(product => product.cat))];
-  $("#categories").innerHTML = categories.map(cat =>
-    `<button class="chip ${category===cat?"on":""}" data-cat="${escapeHTML(cat)}">${escapeHTML(cat)}</button>`
+  const cats = ["All", ...new Set(PRODUCTS.map(p => p.cat))];
+
+  $("#categories").innerHTML = cats.map(cat =>
+    `<button class="chip ${category === cat ? "on" : ""}" data-cat="${escapeHTML(cat)}">${escapeHTML(cat)}</button>`
   ).join("");
 }
+
+function cartCount() {
+  return PRODUCTS.reduce((sum, product) =>
+    sum + (cart[product.id] || 0), 0);
+}
+
+function cartTotal() {
+  return PRODUCTS.reduce((sum, product) =>
+    sum + product.price * (cart[product.id] || 0), 0);
+}
+
+function selectedProducts() {
+  return PRODUCTS.filter(p => (cart[p.id] || 0) > 0);
+}
+
 function renderProducts() {
-  const shown = PRODUCTS.filter(product => category==="All" || product.cat===category);
-  $("#products").innerHTML = shown.map(product => `
+  const shown = PRODUCTS.filter(p =>
+    category === "All" || p.cat === category
+  );
+
+  $("#products").innerHTML = shown.map(p => `
     <article class="card">
-      <div class="sw" style="--c:${escapeHTML(product.color)}">
-        ${product.stock ? "" : '<b class="tag">SOLD OUT</b>'}
+      <div class="sw" style="--c:${escapeHTML(p.color)}">
+        ${p.image_url ? `<img src="${escapeHTML(p.image_url)}" alt="${escapeHTML(p.name)}" loading="lazy" onerror="this.style.display='none'">` : ""}
+        ${p.stock ? "" : '<b class="tag">SOLD OUT</b>'}
       </div>
-      <h3>${escapeHTML(product.name)}</h3>
-      <p class="cat">${escapeHTML(product.cat)}</p>
+      <h3>${escapeHTML(p.name)}</h3>
+      <p class="cat">${escapeHTML(p.cat)}</p>
+      ${p.description ? `<p class="small">${escapeHTML(p.description)}</p>` : ""}
       <div class="row">
-        <span class="price">${money(product.price)}</span>
-        <button class="btn" data-add="${product.id}" ${product.stock?"":"disabled"}>Add</button>
+        <span class="price">${money(p.price)}</span>
+        <button class="btn" data-add="${Number(p.id)}" ${p.stock ? "" : "disabled"}>Add</button>
       </div>
     </article>
   `).join("");
+
   $("#bag-count").textContent = cartCount();
 }
+
 function render() {
   renderCategories();
   renderProducts();
 }
-function orderMessage() {
-  const lines = selectedProducts().map(product =>
-    `• ${cart[product.id]} × ${product.name} — ${money(product.price * cart[product.id])}`
-  ).join("\n");
-  return `DREAM BY OISHY — NEW ORDER\n\n${lines}\n\nTotal: ${money(cartTotal())}\nName: ${customer.name}\nPhone: ${customer.phone}\nDelivery address: ${customer.address}${customer.notes ? "\nNotes: "+customer.notes : ""}`;
-}
+
 function renderCart() {
   $("#modal-root").innerHTML = `
     <div class="overlay" id="overlay">
       <section class="sheet" role="dialog" aria-modal="true">
         <h2>Your shopping bag</h2>
-        ${selectedProducts().length ? selectedProducts().map(product => `
+
+        ${selectedProducts().length ? selectedProducts().map(p => `
           <div class="item">
-            <div class="dot" style="--c:${escapeHTML(product.color)}"></div>
-            <div class="desc">${escapeHTML(product.name)}<br><small>${money(product.price)}</small></div>
+            <div class="dot" style="--c:${escapeHTML(p.color)}"></div>
+            <div class="desc">
+              ${escapeHTML(p.name)}<br>
+              <small>${money(p.price)}</small>
+            </div>
             <div class="qty">
-              <button data-dec="${product.id}" aria-label="Remove one">−</button>
-              ${cart[product.id]}
-              <button data-inc="${product.id}" aria-label="Add one">+</button>
+              <button data-dec="${p.id}" aria-label="Remove one">−</button>
+              ${cart[p.id]}
+              <button data-inc="${p.id}" aria-label="Add one">+</button>
             </div>
           </div>
-        `).join("") : '<p class="empty">Your bag is empty. Add something you love.</p>'}
-        <div class="total"><span>Total</span><span>${money(cartTotal())}</span></div>
+        `).join("") : '<p>Your bag is empty. Add something you love.</p>'}
+
+        <div class="total">
+          <span>Total</span>
+          <span>${money(cartTotal())}</span>
+        </div>
+
         <div class="form">
           <input id="cust-name" placeholder="Your name" autocomplete="name" value="${escapeHTML(customer.name)}" required>
           <input id="cust-phone" placeholder="Phone number" autocomplete="tel" value="${escapeHTML(customer.phone)}" required>
           <input id="cust-address" placeholder="Delivery address" autocomplete="street-address" value="${escapeHTML(customer.address)}" required>
           <textarea id="cust-notes" rows="2" placeholder="Notes (optional)">${escapeHTML(customer.notes)}</textarea>
         </div>
-        <button class="btn big" id="send-order" ${selectedProducts().length?"":"disabled"}>Order through WhatsApp</button>
-        <p class="small">Your WhatsApp app will open with your order. You must press Send in WhatsApp to submit it.</p>
-        <p style="text-align:center"><button class="btn ghost" id="close-cart">Keep shopping</button></p>
+
+        <button class="btn big" id="send-order" ${selectedProducts().length ? "" : "disabled"}>Order through WhatsApp</button>
+        <p class="small">WhatsApp opens with your order. Press Send in WhatsApp to submit it.</p>
+        <p style="text-align:center">
+          <button class="btn ghost" id="close-cart">Keep shopping</button>
+        </p>
       </section>
     </div>`;
 }
+
 function closeCart() {
   $("#modal-root").innerHTML = "";
 }
+
 function sendOrder() {
   customer.name = $("#cust-name").value.trim();
   customer.phone = $("#cust-phone").value.trim();
   customer.address = $("#cust-address").value.trim();
   customer.notes = $("#cust-notes").value.trim();
 
-  if (!selectedProducts().length) return toast("Please add a product first.");
+  if (!selectedProducts().length) {
+    return toast("Please add a product first.");
+  }
+
   if (!customer.name || !customer.phone || !customer.address) {
     return toast("Please enter your name, phone number and address.");
   }
-  const number = WHATSAPP_NUMBER.replace(/\D/g, "");
-  if (!number) return toast("Shop owner: add your WhatsApp number in the code first.");
 
-  const url = "https://wa.me/" + number + "?text=" + encodeURIComponent(orderMessage());
-  window.open(url, "_blank", "noopener,noreferrer");
+  const number = WHATSAPP_NUMBER.replace(/\D/g, "");
+
+  if (!number || number.includes("XXXXXXXXX")) {
+    return toast("Add your WhatsApp number in the website code first.");
+  }
+
+  const lines = selectedProducts().map(p =>
+    `• ${cart[p.id]} × ${p.name} — ${money(p.price * cart[p.id])}`
+  ).join("\n");
+
+  const message =
+    `DREAM BY OISHY — NEW ORDER\n\n${lines}\n\n` +
+    `Total: ${money(cartTotal())}\n` +
+    `Name: ${customer.name}\n` +
+    `Phone: ${customer.phone}\n` +
+    `Delivery address: ${customer.address}` +
+    (customer.notes ? "\nNotes: " + customer.notes : "");
+
+  window.open(
+    "https://wa.me/" + number + "?text=" + encodeURIComponent(message),
+    "_blank",
+    "noopener,noreferrer"
+  );
 }
 
-document.addEventListener("click", event => {
-  const target = event.target;
+function clearProductForm() {
+  $("#product-form").reset();
+  $("#product-id").value = "";
+  $("#p-category").value = "Skincare";
+  $("#p-stock").value = "true";
+  $("#form-title").textContent = "Add a product";
+}
 
-  if (target.matches("[data-cat]")) {
-    category = target.dataset.cat;
-    renderCategories();
-    renderProducts();
+async function showAdmin() {
+  $("#admin-panel").hidden = false;
+  $("#admin-panel").scrollIntoView({behavior:"smooth",block:"start"});
+
+  if (!supabase) {
+    toast("Add your Supabase Publishable key first.");
+    return;
   }
-  if (target.matches("[data-add]")) {
-    const id = Number(target.dataset.add);
+
+  const {data:{session}} = await supabase.auth.getSession();
+  setAdminState(session);
+}
+
+function setAdminState(session) {
+  $("#login-area").hidden = !!session;
+  $("#manage-area").hidden = !session;
+
+  if (session) {
+    $("#admin-welcome").textContent =
+      "Signed in as " + (session.user.email || "admin");
+    renderAdminProducts();
+  }
+}
+
+async function renderAdminProducts() {
+  const el = $("#admin-products");
+  el.innerHTML = "Loading…";
+
+  const {data,error} = await supabase
+    .from("products")
+    .select("id,name,category,price,stock")
+    .order("created_at", {ascending:false});
+
+  if (error) {
+    el.textContent = "Could not load admin products: " + error.message;
+    return;
+  }
+
+  el.innerHTML = (data || []).map(p => `
+    <div class="admin-row">
+      <div class="small">
+        <strong>${escapeHTML(p.name)}</strong><br>
+        ${escapeHTML(p.category)} · ${money(p.price)} · ${p.stock ? "In stock" : "Sold out"}
+      </div>
+      <button class="btn ghost" data-edit="${p.id}">Edit</button>
+      <button class="btn ghost" data-delete="${p.id}">Delete</button>
+    </div>
+  `).join("") || '<p class="small">No products yet.</p>';
+}
+
+async function loginAdmin() {
+  const email = $("#admin-email").value.trim();
+  const password = $("#admin-password").value;
+
+  if (!email || !password) {
+    return toast("Enter your admin email and password.");
+  }
+
+  const {data,error} = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    return toast("Sign-in failed: " + error.message);
+  }
+
+  $("#admin-password").value = "";
+  setAdminState(data.session);
+  toast("Signed in.");
+}
+
+async function logoutAdmin() {
+  const {error} = await supabase.auth.signOut();
+
+  if (error) return toast(error.message);
+
+  setAdminState(null);
+  clearProductForm();
+  toast("Signed out.");
+}
+
+async function saveProduct(event) {
+  event.preventDefault();
+
+  const id = $("#product-id").value;
+
+  const row = {
+    name: $("#p-name").value.trim(),
+    category: $("#p-category").value.trim(),
+    price: Number($("#p-price").value),
+    image_url: $("#p-image").value.trim() || null,
+    description: $("#p-description").value.trim() || null,
+    stock: $("#p-stock").value === "true"
+  };
+
+  const result = id
+    ? await supabase.from("products").update(row).eq("id", id)
+    : await supabase.from("products").insert(row);
+
+  if (result.error) {
+    toast("Save failed: " + result.error.message);
+    return;
+  }
+
+  toast(id ? "Product updated." : "Product added.");
+  clearProductForm();
+  await loadProducts();
+  await renderAdminProducts();
+}
+
+function editProduct(id) {
+  const p = PRODUCTS.find(x => String(x.id) === String(id));
+
+  if (!p) {
+    return toast("Product not found; refresh and try again.");
+  }
+
+  $("#product-id").value = p.id;
+  $("#p-name").value = p.name;
+  $("#p-category").value = p.cat;
+  $("#p-price").value = p.price;
+  $("#p-image").value = p.image_url || "";
+  $("#p-description").value = p.description || "";
+  $("#p-stock").value = String(!!p.stock);
+  $("#form-title").textContent = "Edit product #" + p.id;
+
+  $("#product-form").scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+}
+
+async function deleteProduct(id) {
+  if (!confirm("Delete this product permanently?")) return;
+
+  const {error} = await supabase
+    .from("products")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    toast("Delete failed: " + error.message);
+    return;
+  }
+
+  delete cart[id];
+  toast("Product deleted.");
+  await loadProducts();
+  await renderAdminProducts();
+}
+
+document.addEventListener("click", async event => {
+  const t = event.target;
+
+  if (t.matches("[data-cat]")) {
+    category = t.dataset.cat;
+    render();
+  }
+
+  if (t.matches("[data-add]")) {
+    const id = Number(t.dataset.add);
     cart[id] = (cart[id] || 0) + 1;
     renderProducts();
     toast("Added to your bag!");
   }
-  if (target.id === "open-cart") renderCart();
-  if (target.id === "close-cart" || target.id === "overlay") closeCart();
 
-  if (target.matches("[data-inc]")) {
-    const id = Number(target.dataset.inc);
+  if (t.id === "open-cart") renderCart();
+
+  if (t.id === "close-cart" || t.id === "overlay") {
+    closeCart();
+  }
+
+  if (t.matches("[data-inc]")) {
+    const id = Number(t.dataset.inc);
     cart[id] = (cart[id] || 0) + 1;
     renderCart();
     renderProducts();
   }
-  if (target.matches("[data-dec]")) {
-    const id = Number(target.dataset.dec);
+
+  if (t.matches("[data-dec]")) {
+    const id = Number(t.dataset.dec);
     cart[id] = (cart[id] || 0) - 1;
     if (cart[id] <= 0) delete cart[id];
     renderCart();
     renderProducts();
   }
-  if (target.id === "send-order") sendOrder();
+
+  if (t.id === "send-order") sendOrder();
+  if (t.id === "admin-open") showAdmin();
+  if (t.id === "admin-login") loginAdmin();
+  if (t.id === "admin-logout") logoutAdmin();
+  if (t.id === "clear-form") clearProductForm();
+
+  if (t.matches("[data-edit]")) {
+    editProduct(t.dataset.edit);
+  }
+
+  if (t.matches("[data-delete]")) {
+    deleteProduct(t.dataset.delete);
+  }
 });
+
+$("#product-form").addEventListener("submit", saveProduct);
 
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeCart();
 });
 
-render();
-$("#status").textContent = "Welcome to DREAM BY OISHY. Select your favourites and add them to your bag.";
+if (supabase) {
+  supabase.auth.onAuthStateChange((_event, session) => {
+    setAdminState(session);
+  });
+  loadProducts();
+} else {
+  $("#status").textContent =
+    "Setup needed: add your Supabase Publishable key in the JavaScript section.";
+  render();
+}
 </script>
 </body>
 </html>
