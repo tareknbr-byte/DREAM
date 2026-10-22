@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EFE7FF">
+<meta name="description" content="DREAM BY OISHY makeup and skincare shop. Browse products and order through WhatsApp.">
+<title>DREAM BY OISHY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap">
+<style>
+:root{--bg:#EFE7FF;--ink:#1D1033;--card:#fff;--pink:#FF3D8B;--lime:#D6FF4A;--mut:#6B5C85;--line:#1D1033;--on:#1D1033;box-sizing:border-box;color-scheme:light}
+[data-theme="dark"]{--bg:#150D26;--ink:#F4ECFF;--card:#231642;--mut:#B3A3D1;--line:#F4ECFF;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.4}
+button,input,select,textarea{font:inherit;color:inherit}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;justify-content:space-between;align-items:center;padding:12px 16px;max-width:1000px;margin:auto}
+.logo{font-weight:800;font-size:1.4rem;letter-spacing:-.03em}.wrap{max-width:1000px;margin:auto;padding:0 16px 80px}
+.btn{display:inline-block;border:2px solid var(--line);background:var(--pink);color:var(--on);font-weight:700;padding:9px 16px;border-radius:999px;cursor:pointer;text-decoration:none;box-shadow:3px 3px 0 var(--line)}
+.btn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--line)}.btn.alt{background:var(--lime)}.btn.ghost{background:var(--card);color:var(--ink)}.btn:disabled{opacity:.5;cursor:not-allowed}.big{display:block;text-align:center;width:100%;padding:13px}
+.hero{padding:28px 0 18px;position:relative}.hero h1{font-size:clamp(2.6rem,11vw,5.2rem);line-height:.95;letter-spacing:-.045em;font-weight:800;margin:0;max-width:11ch}.hero p{max-width:36ch;color:var(--mut);margin:14px 0 0;font-size:1.05rem}
+.sticker{position:absolute;right:4px;top:30px;background:var(--lime);color:var(--on);border:2px solid var(--line);border-radius:50%;width:88px;height:88px;display:grid;place-items:center;text-align:center;font-weight:800;transform:rotate(12deg)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 14px}.chip{flex:none;border:2px solid var(--line);background:var(--card);border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:600}.chip.on{background:var(--ink);color:var(--bg)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}@media(min-width:700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:12px;box-shadow:4px 4px 0 var(--line);display:flex;flex-direction:column;gap:7px;min-width:0}
+.sw{position:relative;overflow:hidden;aspect-ratio:1;border-radius:48%;background:radial-gradient(circle at 30% 24%,rgba(255,255,255,.7),transparent 34%),var(--c,#FF6FA5);border:2px solid var(--line)}.sw img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.tag{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-8deg);background:var(--ink);color:var(--bg);padding:3px 10px;border-radius:99px;white-space:nowrap}
+.card h3{margin:5px 0 0;font-size:1.05rem;line-height:1.15}.cat{margin:0;color:var(--mut);font-size:.85rem}.row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;gap:8px}.price{font-weight:800;font-size:1.1rem}.card .btn{padding:6px 12px;box-shadow:2px 2px 0 var(--line)}
+.cartbtn i{font-style:normal;background:var(--ink);color:var(--bg);border-radius:99px;padding:0 7px;margin-left:6px}
+.overlay{position:fixed;inset:0;background:#14082899;z-index:10;display:flex;align-items:flex-end;justify-content:center}.sheet{background:var(--bg);border:2px solid var(--line);border-radius:26px 26px 0 0;width:100%;max-width:540px;max-height:92vh;overflow:auto;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px))}.sheet h2{margin:0 0 10px;font-size:1.6rem}
+.item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--mut)}.dot{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:var(--c);flex:none}.item .desc{flex:1;font-weight:600;line-height:1.2}.qty{display:flex;align-items:center;gap:8px}.qty button{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);background:var(--card);cursor:pointer;font-weight:800}.total{display:flex;justify-content:space-between;font-weight:800;font-size:1.3rem;margin:14px 0}
+.form{display:grid;gap:9px;margin:12px 0}.form input,.form textarea,.admin input,.admin select{width:100%;border:2px solid var(--line);background:var(--card);border-radius:12px;padding:9px 10px}.empty{color:var(--mut);padding:16px 0}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;opacity:0;transition:.2s;z-index:30;pointer-events:none;max-width:90vw;text-align:center}#toast.show{opacity:1;transform:translate(-50%,0)}
+.admin{margin:28px 0;padding:16px;border:2px dashed var(--line);border-radius:18px}.admin h2{margin-top:0}.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.admin label{display:grid;gap:4px;font-size:.9rem}.admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.admin-product{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--mut)}.small{font-size:.88rem;color:var(--mut)}.warning{background:#fff2b8;color:#3c2b00;border:1px solid #8b6d00;border-radius:12px;padding:10px;margin:10px 0}
+footer{text-align:center;color:var(--mut);padding:24px 0;font-size:.9rem}
+</style>
+</head>
+<body>
+<header><span class="logo" id="brand">DREAM BY OISHY</span><button class="btn cartbtn" id="open-cart">Bag<i id="bag-count">0</i></button></header>
+<main class="wrap">
+<section class="hero"><h1>Pick your shade.</h1><p id="tagline">Makeup and skincare that looks as good as you feel. Tap, add, and we’ll confirm on WhatsApp.</p><div class="sticker">new<br>drops</div></section>
+<nav class="chips" id="categories" aria-label="Product categories"></nav>
+<div id="status" class="small" role="status"></div>
+<section class="grid" id="products" aria-label="Products"></section>
+<section id="admin-root" class="admin" hidden></section>
+<footer>DREAM BY OISHY · Beauty, your way</footer>
+</main>
+<div id="modal-root"></div><div id="toast" role="status" aria-live="polite"></div>
+
+<!-- Setup: replace the placeholders below. Never put a Supabase service_role key here. -->
+<script>
+const CONFIG = {
+  whatsapp: "", // Bangladesh example: 8801XXXXXXXXX (digits only, no +)
+  currency: "BDT",
+  supabaseUrl: "YOUR_SUPABASE_PROJECT_URL",
+  supabaseAnonKey: "YOUR_SUPABASE_ANON_KEY",
+  adminUserId: "YOUR_ADMIN_AUTH_USER_UUID"
+};
+const STARTER_PRODUCTS = [
+ {id:"p1",name:"Jelly Gloss",cat:"Lips",price:450,color:"#FF6FA5",stock:true,img:""},
+ {id:"p2",name:"Velvet Lip Tint",cat:"Lips",price:600,color:"#D6336C",stock:true,img:""},
+ {id:"p3",name:"Cloud Blush",cat:"Face",price:700,color:"#FF9A8B",stock:true,img:""},
+ {id:"p4",name:"Glow Highlighter",cat:"Face",price:800,color:"#FFD7A8",stock:true,img:""},
+ {id:"p5",name:"Lilac Shadow Pot",cat:"Eyes",price:550,color:"#B79CFF",stock:true,img:""},
+ {id:"p6",name:"Lash Lift Mascara",cat:"Eyes",price:650,color:"#2B1B3F",stock:false,img:""},
+ {id:"p7",name:"Dewy Serum",cat:"Skin",price:1100,color:"#BFEFFF",stock:true,img:""},
+ {id:"p8",name:"Sun Gel SPF 50",cat:"Skin",price:900,color:"#FFF2A8",stock:true,img:""}
+];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let products=STARTER_PRODUCTS.map(p=>({...p})),cart={},category="All",supabaseClient=null,adminSession=null,toastTimer=null,editingProductId=null;
+let customer={name:"",phone:"",address:"",notes:""};
+const isConfigured=()=>CONFIG.supabaseUrl.startsWith("https://")&&!CONFIG.supabaseUrl.includes("YOUR_")&&CONFIG.supabaseAnonKey.length>20&&!CONFIG.supabaseAnonKey.includes("YOUR_");
+const money=n=>new Intl.NumberFormat("en-BD",{style:"currency",currency:CONFIG.currency,maximumFractionDigits:0}).format(Number(n)||0);
+const selected=()=>products.filter(p=>(cart[p.id]||0)>0);
+const total=()=>selected().reduce((sum,p)=>sum+p.price*cart[p.id],0);
+const count=()=>selected().reduce((sum,p)=>sum+cart[p.id],0);
+function toast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2600)}
+function renderCategories(){const cats=["All",...new Set(products.map(p=>p.cat||"Other"))];$("#categories").innerHTML=cats.map(c=>`<button class="chip ${category===c?"on":""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("")}
+function renderProducts(){
+ const shown=products.filter(p=>category==="All"||p.cat===category);
+ $("#products").innerHTML=shown.length?shown.map(p=>`<article class="card"><div class="sw" style="--c:${esc(p.color||"#FF6FA5")}">${p.img?`<img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.display='none'">`:""}${p.stock?"":'<b class="tag">sold out</b>'}</div><h3>${esc(p.name)}</h3><p class="cat">${esc(p.cat||"Other")}</p><div class="row"><span class="price">${money(p.price)}</span><button class="btn" data-add="${esc(p.id)}" ${p.stock?"":"disabled"}>Add</button></div></article>`).join(""):'<p class="empty">No products in this category yet.</p>';
+ $("#bag-count").textContent=count();
+}
+function render(){ $("#brand").textContent="DREAM BY OISHY";$("#tagline").textContent="Makeup and skincare that looks as good as you feel. Tap, add, and we’ll confirm on WhatsApp.";renderCategories();renderProducts();if(location.hash==="#admin")showAdmin();else $("#admin-root").hidden=true; }
+function orderMessage(){
+ const lines=selected().map(p=>`• ${cart[p.id]} × ${p.name} — ${money(p.price*cart[p.id])}`).join("\n");
+ return `DREAM BY OISHY order\n\n${lines}\n\nTotal: ${money(total())}\nName: ${customer.name}\nPhone: ${customer.phone}\nDelivery address: ${customer.address}${customer.notes?`\nNotes: ${customer.notes}`:""}`;
+}
+function renderCart(){
+ $("#modal-root").innerHTML=`<div class="overlay" id="overlay"><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="cart-title"><h2 id="cart-title">Your bag</h2>${selected().length?selected().map(p=>`<div class="item"><div class="dot" style="--c:${esc(p.color||"#FF6FA5")}"></div><div class="desc">${esc(p.name)}<br><small>${money(p.price)}</small></div><div class="qty"><button data-dec="${esc(p.id)}" aria-label="Remove one">−</button>${cart[p.id]}<button data-inc="${esc(p.id)}" aria-label="Add one">+</button></div></div>`).join(""):'<p class="empty">Your bag is empty. Add something you love.</p>'}<div class="total"><span>Total</span><span>${money(total())}</span></div><div class="form"><input id="cust-name" autocomplete="name" placeholder="Your name" value="${esc(customer.name)}" required><input id="cust-phone" autocomplete="tel" inputmode="tel" placeholder="Phone number" value="${esc(customer.phone)}" required><input id="cust-address" autocomplete="street-address" placeholder="Delivery address" value="${esc(customer.address)}" required><textarea id="cust-notes" rows="2" placeholder="Notes (shade, gift, timing)">${esc(customer.notes)}</textarea></div><button class="btn alt big" id="send-order" ${selected().length?"":"disabled"}>Send order on WhatsApp</button><p class="small">Your WhatsApp app will open with the order message. The order is not sent until you press Send in WhatsApp.</p><p style="text-align:center"><button class="btn ghost" id="close-cart">Keep shopping</button></p></section></div>`;
+}
+function closeCart(){$("#modal-root").innerHTML=""}
+function sendOrder(){
+ customer.name=$("#cust-name").value.trim();customer.phone=$("#cust-phone").value.trim();customer.address=$("#cust-address").value.trim();customer.notes=$("#cust-notes").value.trim();
+ if(!selected().length)return toast("Please add a product first.");
+ if(!customer.name||!customer.phone||!customer.address)return toast("Please enter your name, phone and delivery address.");
+ const number=CONFIG.whatsapp.replace(/\D/g,"");
+ if(!number)return toast("Shop owner: add your WhatsApp number in CONFIG before taking orders.");
+ const url="https://wa.me/"+number+"?text="+encodeURIComponent(orderMessage());
+ window.open(url,"_blank","noopener,noreferrer");
+}
+async function initDatabase(){
+ if(!isConfigured()){ $("#status").textContent="Preview mode: products are sample data. Configure Supabase to enable secure online product management.";return; }
+ try{
+  await new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});
+  supabaseClient=window.supabase.createClient(CONFIG.supabaseUrl,CONFIG.supabaseAnonKey);
+  const {data,error}=await supabaseClient.from("products").select("id,name,category,price,color,stock,image_url").order("created_at",{ascending:true});
+  if(error)throw error;
+  products=(data||[]).map(p=>({id:p.id,name:p.name,cat:p.category,price:Number(p.price),color:p.color||"#FF6FA5",stock:p.stock,img:p.image_url||""}));
+  $("#status").textContent=products.length?"":"No products yet. Admin can add products at #admin.";
+  render();
+  const {data:auth}=await supabaseClient.auth.getSession();adminSession=auth.session;
+ }catch(e){console.error(e);$("#status").textContent="Could not connect to the product database. Check Supabase setup and table policies.";toast("Database connection failed.");}
+}
+function showAdmin(){
+ const root=$("#admin-root");root.hidden=false;
+ if(!isConfigured()||!supabaseClient){
+  root.innerHTML=`<h2>Shop management</h2><p class="warning">Secure management is not configured yet. Follow SETUP.md to connect Supabase. A password stored in this HTML would not be secure.</p><p class="small">The public shop can still be hosted on GitHub Pages.</p>`;return;
+ }
+ root.innerHTML=`<h2>Shop management</h2><p class="small">Sign in with the admin account you create in Supabase. Database policies—not a hidden page—protect product changes.</p><div id="admin-login" class="form"><input id="admin-email" type="email" autocomplete="username" placeholder="Admin email"><input id="admin-password" type="password" autocomplete="current-password" placeholder="Password"><button class="btn" id="admin-signin">Sign in</button></div><div id="admin-tools" hidden><div class="admin-grid"><label>Product name<input id="prod-name" placeholder="Product name"></label><label>Category<select id="prod-cat"><option>Lips</option><option>Face</option><option>Eyes</option><option>Skin</option><option>Other</option></select></label><label>Price in ৳<input id="prod-price" type="number" min="0" step="1" placeholder="450"></label><label>Color<input id="prod-color" type="color" value="#FF6FA5"></label><label>Image URL (optional)<input id="prod-image" type="url" placeholder="https://..."></label><label><span>Availability</span><select id="prod-stock"><option value="true">In stock</option><option value="false">Sold out</option></select></label></div><div class="admin-actions"><button class="btn alt" id="prod-add">Add product</button><button class="btn ghost" id="prod-cancel-edit" hidden>Cancel edit</button><button class="btn ghost" id="admin-refresh">Refresh list</button><button class="btn ghost" id="admin-signout">Sign out</button></div><div id="admin-list"></div></div>`;
+ if(adminSession)activateAdmin();
+}
+async function activateAdmin(){
+ $("#admin-login").hidden=true;$("#admin-tools").hidden=false;await loadAdminList();
+}
+async function loadAdminList(){
+ const {data,error}=await supabaseClient.from("products").select("id,name,category,price,stock").order("created_at",{ascending:true});
+ if(error){toast("Could not load products. Check database policies.");return}
+ $("#admin-list").innerHTML=(data||[]).map(p=>`<div class="admin-product"><span><b>${esc(p.name)}</b><br><small>${esc(p.category)} · ${money(p.price)} · ${p.stock?"In stock":"Sold out"}</small></span><span style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn ghost" data-edit="${esc(p.id)}">Edit</button><button class="btn ghost" data-delete="${esc(p.id)}">Delete</button></span></div>`).join("")||'<p class="empty">No products yet.</p>';
+}
+async function signIn(){
+ const email=$("#admin-email").value.trim(),password=$("#admin-password").value;
+ const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+ if(error){toast("Sign-in failed. Check email and password.");return}
+ adminSession=data.session;
+ if(adminSession.user.id!==CONFIG.adminUserId){await supabaseClient.auth.signOut();adminSession=null;toast("This account is not the configured shop administrator.");return}
+ await activateAdmin();toast("Signed in.");
+}
+async function addProduct(){
+ if(!adminSession||adminSession.user.id!==CONFIG.adminUserId)return toast("Admin sign-in required.");
+ const name=$("#prod-name").value.trim(),price=Number($("#prod-price").value);
+ if(!name||!Number.isFinite(price)||price<0)return toast("Enter a product name and valid price.");
+ const item={name,category:$("#prod-cat").value,price,color:$("#prod-color").value,stock:$("#prod-stock").value==="true",image_url:$("#prod-image").value.trim()||null};
+ const result=editingProductId
+   ? await supabaseClient.from("products").update(item).eq("id",editingProductId)
+   : await supabaseClient.from("products").insert(item);
+ if(result.error){console.error(result.error);toast("Could not save product. Check admin UUID and RLS policies.");return}
+ editingProductId=null;$("#prod-name").value="";$("#prod-price").value="";$("#prod-image").value="";$("#prod-add").textContent="Add product";$("#prod-cancel-edit").hidden=true;
+ await refreshProducts();await loadAdminList();toast("Product saved.");
+}
+function startEditProduct(id){
+ const p=products.find(x=>String(x.id)===String(id));if(!p)return;
+ editingProductId=p.id;$("#prod-name").value=p.name;$("#prod-cat").value=p.cat||"Other";$("#prod-price").value=p.price;$("#prod-color").value=p.color||"#FF6FA5";$("#prod-stock").value=String(!!p.stock);$("#prod-image").value=p.img||"";$("#prod-add").textContent="Save changes";$("#prod-cancel-edit").hidden=false;$("#prod-name").focus();
+}
+async function deleteProduct(id){
+ if(!adminSession||adminSession.user.id!==CONFIG.adminUserId)return toast("Admin sign-in required.");
+ if(!confirm("Delete this product?"))return;
+ const {error}=await supabaseClient.from("products").delete().eq("id",id);
+ if(error){toast("Delete failed. Check admin UUID and RLS policies.");return}
+ await refreshProducts();await loadAdminList();toast("Product deleted.");
+}
+async function refreshProducts(){
+ const {data,error}=await supabaseClient.from("products").select("id,name,category,price,color,stock,image_url").order("created_at",{ascending:true});
+ if(error){toast("Could not refresh products.");return}
+ products=(data||[]).map(p=>({id:p.id,name:p.name,cat:p.category,price:Number(p.price),color:p.color||"#FF6FA5",stock:p.stock,img:p.image_url||""}));
+ renderCategories();renderProducts();
+}
+document.addEventListener("click",async e=>{
+ const t=e.target;
+ if(t.matches("[data-cat]")){category=t.dataset.cat;renderCategories();renderProducts()}
+ if(t.matches("[data-add]")){const id=t.dataset.add;cart[id]=(cart[id]||0)+1;renderProducts();toast("Added to your bag")}
+ if(t.id==="open-cart")renderCart();
+ if(t.id==="close-cart"||t.id==="overlay")closeCart();
+ if(t.matches("[data-inc]")){const id=t.dataset.inc;cart[id]=(cart[id]||0)+1;renderCart();renderProducts()}
+ if(t.matches("[data-dec]")){const id=t.dataset.dec;cart[id]=(cart[id]||0)-1;if(cart[id]<=0)delete cart[id];renderCart();renderProducts()}
+ if(t.id==="send-order")sendOrder();
+ if(t.id==="admin-signin")await signIn();
+ if(t.id==="prod-add")await addProduct();
+ if(t.matches("[data-edit]"))startEditProduct(t.dataset.edit);
+ if(t.id==="prod-cancel-edit"){editingProductId=null;$("#prod-name").value="";$("#prod-price").value="";$("#prod-image").value="";$("#prod-add").textContent="Add product";t.hidden=true;}
+ if(t.id==="admin-refresh"){await refreshProducts();await loadAdminList()}
+ if(t.id==="admin-signout"){await supabaseClient.auth.signOut();adminSession=null;showAdmin();toast("Signed out.")}
+ if(t.matches("[data-delete]"))await deleteProduct(t.dataset.delete);
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeCart()});
+window.addEventListener("hashchange",()=>{if(location.hash==="#admin")showAdmin();else $("#admin-root").hidden=true});
+render();initDatabase();
+</script>
+</body>
+</html>
